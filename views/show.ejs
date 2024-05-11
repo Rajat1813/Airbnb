@@ -1,0 +1,151 @@
+<% layout("/layouts/boilerplate") %>
+
+<body>
+  
+
+  <div class="card" style="width: 18rem;">
+    <img src="<%= listing.image.url %>" class="card-img-top" alt="Listing_Image">
+    <div class="card-body">
+      <p class="card-text"><b><%= listing.title %></b> <br>
+      <i> Owned By <%= listing.owner.username %></i>
+      <br>
+        <%= listing.description %> <br>
+      
+        &#x20B9; <%= listing.price %> <br>
+        <%= listing.location %> <br>
+        <%= listing.country %> <br>
+      
+      </p> 
+    </div>
+  </div>
+
+
+  
+    <!-- <ul>
+        <li> <%= listing.title %>       </li>
+        <li> <%= listing.description %> </li>
+       
+
+        
+        <li> <%= listing.location %>    </li>
+        <li> <%= listing.country %>     </li>
+    </ul>
+     <br>
+     <br> -->
+     <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
+         <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">EDIT YOUR RESPONSE</a>
+       <br>
+       <br>
+     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" > 
+       <button class="btn btn-dark" >DELETE </button>
+       <% } %>
+  </form>
+     
+
+<div>
+  <hr>
+
+
+  <form action="/listings/<%= listing._id %>/reviews" method="POST"  class="needs-validation"  novalidate>
+   <h4> Leave a Review </h4>
+
+ <div class="rating">
+  <label for="rating" class="form-label">Give rating</label>
+  <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+</div>
+
+<fieldset class="starability-basic">
+  <legend>First rating:</legend>
+  <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="rating" value="1" />
+  <label for="first-rate1" title="Terrible">1 star</label>
+  <input type="radio" id="first-rate2" name="rating" value="2" />
+  <label for="first-rate2" title="Not good">2 stars</label>
+  <input type="radio" id="first-rate3" name="rating" value="3" />
+  <label for="first-rate3" title="Average">3 stars</label>
+  <input type="radio" id="first-rate4" name="rating" value="4" />
+  <label for="first-rate4" title="Very good">4 stars</label>
+  <input type="radio" id="first-rate5" name="rating" value="5" />
+  <label for="first-rate5" title="Amazing">5 stars</label>
+</fieldset>
+
+<div class="comment">
+<label for="comment"class="form-label">Leave comment</label>
+<textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+<div class="invalid-feedback">Please enter comments in box.</div>
+</div>
+
+<button>Submit</button>
+
+
+
+</form>
+
+<hr>
+<% if(listing.reviews.length > 0) {  %>
+
+<h4>All Reviews</h4>
+
+
+<%  for(review of listing.reviews) { %>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Adam Martin</h5>
+      <p class="card-text"><%=review.comment %></p>
+    
+   
+      <p class="card-text"><%= review.rating %> Star </p>
+      <div> 
+   <% } %>
+   <form method="POST" action="/listings/<%= listing._id %>/reviews/<%=review._id%>?_method=DELETE">
+    <button>DELETE REVIEW</button>
+   </form>
+  </div> 
+  </div>
+   <% } %>
+</div>
+
+<div class="col-6 offset-3 mb-3">
+  <h3>where you'll  be</h3>
+  <div id="map" ></div>
+  <script>
+    let mapToken =  "<%= process.env.MAP_TOKEN %>";
+    console.log(mapToken);
+  mapboxgl.accessToken = mapToken;
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [-74.5, 40], // starting position [lng, lat]
+        zoom: 9 // starting zoom
+    });
+  </script>
+</div>
+
+
+
+<script>
+  (() => {
+    'use strict'
+  
+   
+    const forms = document.querySelectorAll(".needs-validation");
+  
+  
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+</script>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+
+</body>
+   
