@@ -1,4 +1,4 @@
-     const User = require ("../models/user");
+     const user = require ("../models/user");
      
      
      module.exports.renderSignUpForm = (req,res)=>{
@@ -29,13 +29,13 @@
         res.render("login.ejs");
      };
 
-     module.exports.login = async(req,res) =>{
+    //  module.exports.login = async(req,res) =>{
 
-        req.flash("success" , "welcome to wanderlust, you are loggedin!!");
-        let redirecturl = res.locals.redirectUrl || "/listings";
-        res.redirect("redirectUrl");
+    //     req.flash("success" , "welcome to wanderlust !!");
+    //     let redirecturl = res.locals.redirectUrl || "/listings";
+    //     res.redirect("redirectUrl");
     
-     };
+    //  };
 
      module.exports.logout = (req ,res,next)=>{
         req.logout((err)=>{

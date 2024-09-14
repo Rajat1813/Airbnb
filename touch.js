@@ -66,22 +66,8 @@ async function main() {
 //  res.send("working");
 // });
 
-const store =  MongoStore.create({
-    mongoUrl: dbUrl, 
-    crypto: {
-        secret: process.env.SECRET,
-      },
-      touchAfter : 24*3600,
-      
-});
-
-store.on("error" , ()=>{
-    console.log("Error in mongo session store" , err);
-});
-
-
 const sessionOptions = {
-    store,
+    
     secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
@@ -93,7 +79,7 @@ const sessionOptions = {
 
 }; 
 
-
+5
 
 app.use (session(sessionOptions));
 app.use(flash());

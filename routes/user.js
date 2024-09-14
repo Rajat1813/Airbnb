@@ -13,7 +13,11 @@ router.post("/signup", (usercontroller.signup));
 
  router.get("/login" , usercontroller.renderLoginForm);
   
- router.post("/login",saveRedirectUrl,passport.authenticate("local",{failureRedirect : "/login",faiureFlash : true}), usercontroller.login);
+ router.post("/login",passport.authenticate("local" ,{failureRedirect:"/login" , failureFlash :"true"}),  (async(req,res)=>{
+    req.flash("");
+    res.redirect("/listings");
+ }));
+
 
 
  router.get("/logout" , usercontroller.logout);
