@@ -67,7 +67,6 @@ async function main() {
 // });
 
 const sessionOptions = {
-    
     secret : process.env.SECRET,
     resave : false,
     saveUninitialized : true,
@@ -108,6 +107,12 @@ app.use((req ,res,next)=>{
 //    res.send(user);
 
 // })
+
+
+app.get("/" ,async(req,res)=>{
+    res.redirect("/listings");
+
+         });
    
 app.use ("/listings", listings);
 
@@ -148,6 +153,7 @@ app.use ("/", userRouter);
 //    });
 
 app.all("*",(req,res,next )=>{
+    
     next(new ExpressError(404,"pagenot found"));
 });
    
